@@ -52,7 +52,7 @@ export default function TaskList({ tasks }: { tasks: Task[] }) {
   return (
     <div className="space-y-8">
       {/* Add Task Input Section */}
-      <div className="card p-6 border border-indigo-100 dark:border-gray-700">
+      <div className="card p-6 border border-indigo-100 dark:border-gray-700 max-w-2xl mx-auto">
         <h2 className="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-200">Create New Task</h2>
         <div className="flex gap-4 flex-col sm:flex-row">
           <input
@@ -96,9 +96,9 @@ export default function TaskList({ tasks }: { tasks: Task[] }) {
         )}
       </div>
 
-      <div className="space-y-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {tasks.length === 0 ? (
-          <div className="text-center py-16 opacity-60">
+          <div className="col-span-full text-center py-16 opacity-60">
             <div className="bg-gray-100 dark:bg-gray-800 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
@@ -109,26 +109,28 @@ export default function TaskList({ tasks }: { tasks: Task[] }) {
           </div>
         ) : (
           tasks.map((task) => (
-            <div key={task.id} className="card p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 task-card border-l-4 border-l-indigo-500 hover:border-l-indigo-600">
+            <div key={task.id} className="card p-5 flex flex-col justify-between gap-4 task-card border-t-4 border-t-indigo-500 hover:border-t-indigo-600 border-l-0">
               <div className="flex-1">
-                <h3 className="font-medium text-lg text-gray-800 dark:text-gray-100">{task.title}</h3>
-                <p className="text-xs text-gray-400 mt-1">Created {new Date(task.createdAt).toLocaleDateString()}</p>
+                <div className="flex justify-between items-start mb-2">
+                  <span className="text-xs font-semibold text-gray-400 bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded">
+                    #{task.id}
+                  </span>
+                  <span className="text-xs text-gray-400">{new Date(task.createdAt).toLocaleDateString()}</span>
+                </div>
+                <h3 className="font-medium text-lg text-gray-800 dark:text-gray-100 line-clamp-2">{task.title}</h3>
               </div>
 
-              <div className="relative">
-                <select
-                  value={task.status}
-                  onChange={e => handleUpdateStatus(task.id, e.target.value)}
-                  className={`appearance-none cursor-pointer pl-4 pr-10 py-2 rounded-full text-sm font-semibold border-none focus:ring-2 focus:ring-indigo-300 transition-all ${getStatusColor(task.status)}`}
-                >
-                  <option value="Todo">Todo</option>
-                  <option value="In Progress">In Progress</option>
-                  <option value="Done">Done</option>
-                </select>
-                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-current opacity-70">
-                  <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-                  </svg>
+              <div className="pt-4 border-t border-gray-100 dark:border-gray-700 flex justify-between items-center">
+                <div className="relative w-full">
+                  <select
+                    value={task.status}
+                    onChange={e => handleUpdateStatus(task.id, e.target.value)}
+                    className={`appearance-none cursor-pointer w-full text-center py-2 rounded-lg text-sm font-semibold border-none focus:ring-2 focus:ring-indigo-300 transition-all ${getStatusColor(task.status)}`}
+                  >
+                    <option value="Todo">Todo</option>
+                    <option value="In Progress">In Progress</option>
+                    <option value="Done">Done</option>
+                  </select>
                 </div>
               </div>
             </div>
