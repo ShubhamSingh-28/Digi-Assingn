@@ -1,8 +1,15 @@
+import { redirect } from "next/navigation";
 import { getTasks } from "../actions/tasks";
 import { logout } from "../actions/auth";
+import { getCurrentUser } from "../lib/getUser";
 import TaskList from "./task-list";
 
 export default async function TasksPage() {
+  const user = await getCurrentUser();
+  if (!user) {
+    redirect("/");
+  }
+
   const tasks = await getTasks();
 
   return (
