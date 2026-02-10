@@ -1,6 +1,6 @@
 "use server";
 
-import { prisma } from "@/app/lib/prisma";
+import prisma from "@/app/lib/prisma";
 import { getCurrentUser } from "@/app/lib/getUser";
 
 const VALID_STATUSES = ["Todo", "In Progress", "Done"];
